@@ -58,3 +58,20 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Accessing the API Documentation
+
+NestJS provides interactive API documentation using **Swagger**.
+
+To view the API documentation, follow these steps:
+
+1. Make sure the project is running.
+2. Open your browser and navigate to the following URL:
+
+    ```
+    http://localhost:<port>/api
+    ```
+
+> Replace `<port>` with the port your NestJS application is running on (default is `3000`).
+
+The Swagger UI will provide a detailed, interactive view of all available endpoints and allow you to test them directly from the browser.
