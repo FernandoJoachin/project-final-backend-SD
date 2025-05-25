@@ -7,10 +7,25 @@ export class StudentReportResponse {
   @ApiProperty({ type: Student })
   student: Student;
 
-  @ApiProperty({ type: [Grade] })
-  grades: Grade[];
+  @ApiProperty({
+    type: 'array',
+    items: {
+      properties: {
+        id: { type: 'string', format: 'uuid' },
+        score: { type: 'number', example: 85 },
+        date: { type: 'string', format: 'date-time' },
+        subject: { $ref: '#/components/schemas/Subject' }
+      }
+    }
+  })
+  grades: Array<{
+    id: string;
+    score: number;
+    date: Date;
+    subject: Subject;
+  }>;
 
-  @ApiProperty({ example: 85.5, description: 'Average score across all subjects' })
+  @ApiProperty({ example: 85, description: 'Average score across all subjects' })
   average: number;
 }
 
@@ -23,7 +38,7 @@ export class SubjectReportResponse {
     items: {
       properties: {
         id: { type: 'string', format: 'uuid' },
-        score: { type: 'number' },
+        score: { type: 'number', example: 78.2},
         date: { type: 'string', format: 'date-time' },
         student: { $ref: '#/components/schemas/Student' }
       }
