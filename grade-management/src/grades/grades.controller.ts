@@ -4,6 +4,7 @@ import { CreateGradeDto } from './dto/create-grade.dto';
 import { UpdateGradeDto } from './dto/update-grade.dto';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Grade } from './entities/grade.entity';
+import { Subject } from 'src/subjects/entities/subject.entity';
 
 @ApiTags('Grades')
 @Controller('grades')
@@ -46,6 +47,19 @@ export class GradesController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.gradesService.findOne(id);
+  }
+
+  @ApiOperation({
+    summary: 'Get eligible subjects for a student',
+    description: 'Returns the list of subjects that a student can enroll in, based on their grade level'
+  })
+  @ApiParam({ name: 'id', description: 'Student ID (UUID)', format: 'uuid' })
+  @ApiResponse({ status: 200, description: 'List of eligible subjects', type: [Subject] })
+  @ApiResponse({ status: 404, description: 'Student not found' })
+  @ApiResponse({ status: 500, description: 'Internal server error' })
+  @Get('eligible-subjects/:id')
+  getEligibleSubjects(@Param('id') id: string) {
+    return this.gradesService.findEligibleSubjectsByStudent(id);
   }
 
   @Patch(':id')

@@ -26,7 +26,7 @@ export class GradesService {
     const student = await this.studentsService.findOne(studentId);
     const subject = await this.subjectsService.findOne(subjectId);
     
-    if (student.gradeLevel < subject.gradeLevel) {
+    if (student.gradeLevel != subject.gradeLevel) {
       throw new ConflictException('The subject is not valid with respect to the student\'s grade level');
     }
 
@@ -87,6 +87,20 @@ export class GradesService {
       throw new NotFoundException(`Grade with subject ID ${subjectId} not found`);
 
     return grade; 
+  }
+
+  async findEligibleSubjectsByStudent(studentId: string) {
+    const student = await this.studentsService.findOne(studentId);
+    
+    if (!student) {
+      this.exceptionService.throwNotFound('Student', studentId);
+    }
+
+    try {
+      return this.subjectsService.findByGradeLevel(student.gradeLevel);
+    } catch (error) {
+      this.exceptionService.handleDBExceptions(error);
+    }
   }
 
   async update(id: string, updateGradeDto: UpdateGradeDto) {

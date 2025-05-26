@@ -40,6 +40,12 @@ export class SubjectsService {
     return subject; 
   }
 
+  async findByGradeLevel(gradeLevel: number) {
+    return await this.subjectsRepository.find({
+      where: { gradeLevel },
+    });
+  }
+
   async update(id: string, updateSubjectDto: UpdateSubjectDto) {
     const subject = await this.subjectsRepository.preload({
       id,
