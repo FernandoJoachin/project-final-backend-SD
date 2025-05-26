@@ -8,7 +8,7 @@ async function bootstrap() {
   app.enableCors({
     origin: true, 
     methods: 'GET,POST,PATCH,DELETE',
-    allowedHeaders: 'Content-Type, Authorization',
+    allowedHeaders: 'Content-Type, Authorization, ngrok-skip-browser-warning',
   });
   const logger = new Logger('Bootstrap');
   app.setGlobalPrefix('api');
